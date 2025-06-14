@@ -1,14 +1,11 @@
-FROM node:18-alpine
+FROM n8nio/n8n
 
-# Set working directory
-WORKDIR /app
+USER root
 
-# Install dependencies including ffmpeg
-RUN apk add --no-cache ffmpeg bash curl python3 make g++ \
-  && npm install -g n8n
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    apt-get clean
 
-# Optional: expose n8n's port
-EXPOSE 5678
+USER node
 
-# Start n8n
 CMD ["n8n"]
