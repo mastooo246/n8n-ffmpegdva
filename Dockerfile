@@ -1,8 +1,14 @@
-FROM n8nio/n8n:1.97.1-alpine
+FROM node:18-alpine
 
-USER root
+# Set working directory
+WORKDIR /app
 
-# Use Alpine's package manager (apk) instead of apt
-RUN apk add --no-cache ffmpeg
+# Install dependencies including ffmpeg
+RUN apk add --no-cache ffmpeg bash curl python3 make g++ \
+  && npm install -g n8n
 
-USER node
+# Optional: expose n8n's port
+EXPOSE 5678
+
+# Start n8n
+CMD ["n8n"]
